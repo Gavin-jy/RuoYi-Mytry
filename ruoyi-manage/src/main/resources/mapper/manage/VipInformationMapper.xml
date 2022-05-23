@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.manage.mapper.VipInformationMapper">
+    
+    <resultMap type="VipInformation" id="VipInformationResult">
+        <result property="vipId"    column="VIP_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="vipLevel"    column="VIP_level"    />
+        <result property="vipDiscount"    column="VIP_discount"    />
+        <result property="creatime"    column="creatime"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectVipInformationVo">
+        select VIP_id, user_id, VIP_level, VIP_discount, creatime, create_by, update_time, update_by, del_flag, remark from vip_information
+    </sql>
+
+    <select id="selectVipInformationList" parameterType="VipInformation" resultMap="VipInformationResult">
+        <include refid="selectVipInformationVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="vipLevel != null "> and VIP_level = #{vipLevel}</if>
+            <if test="vipDiscount != null "> and VIP_discount = #{vipDiscount}</if>
+            <if test="creatime != null "> and creatime = #{creatime}</if>
+        </where>
+    </select>
+    
+    <select id="selectVipInformationByVipId" parameterType="String" resultMap="VipInformationResult">
+        <include refid="selectVipInformationVo"/>
+        where VIP_id = #{vipId}
+    </select>
+        
+    <insert id="insertVipInformation" parameterType="VipInformation">
+        insert into vip_information
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="vipId != null">VIP_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="vipLevel != null">VIP_level,</if>
+            <if test="vipDiscount != null">VIP_discount,</if>
+            <if test="creatime != null">creatime,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="vipId != null">#{vipId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="vipLevel != null">#{vipLevel},</if>
+            <if test="vipDiscount != null">#{vipDiscount},</if>
+            <if test="creatime != null">#{creatime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateVipInformation" parameterType="VipInformation">
+        update vip_information
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="vipLevel != null">VIP_level = #{vipLevel},</if>
+            <if test="vipDiscount != null">VIP_discount = #{vipDiscount},</if>
+            <if test="creatime != null">creatime = #{creatime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where VIP_id = #{vipId}
+    </update>
+
+    <delete id="deleteVipInformationByVipId" parameterType="String">
+        delete from vip_information where VIP_id = #{vipId}
+    </delete>
+
+    <delete id="deleteVipInformationByVipIds" parameterType="String">
+        delete from vip_information where VIP_id in 
+        <foreach item="vipId" collection="array" open="(" separator="," close=")">
+            #{vipId}
+        </foreach>
+    </delete>
+</mapper>

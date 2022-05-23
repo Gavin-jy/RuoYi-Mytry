@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.consumer.mapper.MycollectMapper">
+    
+    <resultMap type="Mycollect" id="MycollectResult">
+        <result property="mycollectId"    column="mycollect_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="mycollectType"    column="mycollect_type"    />
+        <result property="mycollectStoreId"    column="mycollect_store_id"    />
+        <result property="mycollectBookId"    column="mycollect_book_id"    />
+        <result property="creatime"    column="creatime"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectMycollectVo">
+        select mycollect_id, user_id, mycollect_type, mycollect_store_id, mycollect_book_id, creatime, create_by, update_time, update_by, del_flag, remark from mycollect
+    </sql>
+
+    <select id="selectMycollectList" parameterType="Mycollect" resultMap="MycollectResult">
+        <include refid="selectMycollectVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="mycollectType != null "> and mycollect_type = #{mycollectType}</if>
+            <if test="mycollectStoreId != null "> and mycollect_store_id = #{mycollectStoreId}</if>
+            <if test="mycollectBookId != null "> and mycollect_book_id = #{mycollectBookId}</if>
+            <if test="creatime != null "> and creatime = #{creatime}</if>
+        </where>
+    </select>
+    
+    <select id="selectMycollectByMycollectId" parameterType="Long" resultMap="MycollectResult">
+        <include refid="selectMycollectVo"/>
+        where mycollect_id = #{mycollectId}
+    </select>
+        
+    <insert id="insertMycollect" parameterType="Mycollect">
+        insert into mycollect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mycollectId != null">mycollect_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="mycollectType != null">mycollect_type,</if>
+            <if test="mycollectStoreId != null">mycollect_store_id,</if>
+            <if test="mycollectBookId != null">mycollect_book_id,</if>
+            <if test="creatime != null">creatime,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mycollectId != null">#{mycollectId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="mycollectType != null">#{mycollectType},</if>
+            <if test="mycollectStoreId != null">#{mycollectStoreId},</if>
+            <if test="mycollectBookId != null">#{mycollectBookId},</if>
+            <if test="creatime != null">#{creatime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMycollect" parameterType="Mycollect">
+        update mycollect
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="mycollectType != null">mycollect_type = #{mycollectType},</if>
+            <if test="mycollectStoreId != null">mycollect_store_id = #{mycollectStoreId},</if>
+            <if test="mycollectBookId != null">mycollect_book_id = #{mycollectBookId},</if>
+            <if test="creatime != null">creatime = #{creatime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where mycollect_id = #{mycollectId}
+    </update>
+
+    <delete id="deleteMycollectByMycollectId" parameterType="Long">
+        delete from mycollect where mycollect_id = #{mycollectId}
+    </delete>
+
+    <delete id="deleteMycollectByMycollectIds" parameterType="String">
+        delete from mycollect where mycollect_id in 
+        <foreach item="mycollectId" collection="array" open="(" separator="," close=")">
+            #{mycollectId}
+        </foreach>
+    </delete>
+</mapper>

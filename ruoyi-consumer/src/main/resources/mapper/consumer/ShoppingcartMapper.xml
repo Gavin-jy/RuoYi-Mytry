@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.consumer.mapper.ShoppingcartMapper">
+    
+    <resultMap type="Shoppingcart" id="ShoppingcartResult">
+        <result property="shoppingItemId"    column="shopping_Item_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="bookId"    column="book_id"    />
+        <result property="creatime"    column="creatime"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectShoppingcartVo">
+        select shopping_Item_id, user_id, book_id, creatime, create_by, update_time, update_by, del_flag, remark from shoppingcart
+    </sql>
+
+    <select id="selectShoppingcartList" parameterType="Shoppingcart" resultMap="ShoppingcartResult">
+        <include refid="selectShoppingcartVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="bookId != null  and bookId != ''"> and book_id = #{bookId}</if>
+            <if test="creatime != null "> and creatime = #{creatime}</if>
+        </where>
+    </select>
+    
+    <select id="selectShoppingcartByShoppingItemId" parameterType="String" resultMap="ShoppingcartResult">
+        <include refid="selectShoppingcartVo"/>
+        where shopping_Item_id = #{shoppingItemId}
+    </select>
+        
+    <insert id="insertShoppingcart" parameterType="Shoppingcart">
+        insert into shoppingcart
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="shoppingItemId != null">shopping_Item_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="bookId != null and bookId != ''">book_id,</if>
+            <if test="creatime != null">creatime,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="shoppingItemId != null">#{shoppingItemId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="bookId != null and bookId != ''">#{bookId},</if>
+            <if test="creatime != null">#{creatime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateShoppingcart" parameterType="Shoppingcart">
+        update shoppingcart
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="bookId != null and bookId != ''">book_id = #{bookId},</if>
+            <if test="creatime != null">creatime = #{creatime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where shopping_Item_id = #{shoppingItemId}
+    </update>
+
+    <delete id="deleteShoppingcartByShoppingItemId" parameterType="String">
+        delete from shoppingcart where shopping_Item_id = #{shoppingItemId}
+    </delete>
+
+    <delete id="deleteShoppingcartByShoppingItemIds" parameterType="String">
+        delete from shoppingcart where shopping_Item_id in 
+        <foreach item="shoppingItemId" collection="array" open="(" separator="," close=")">
+            #{shoppingItemId}
+        </foreach>
+    </delete>
+</mapper>

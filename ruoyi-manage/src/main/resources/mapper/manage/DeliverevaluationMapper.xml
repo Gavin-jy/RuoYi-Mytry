@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.manage.mapper.DeliverevaluationMapper">
+    
+    <resultMap type="Deliverevaluation" id="DeliverevaluationResult">
+        <result property="logisticsEvaluationId2"    column="logistics_evaluation_id2"    />
+        <result property="deliverId"    column="deliver_id"    />
+        <result property="logisticsEvaluationEvadite2"    column="logistics_evaluation_evadite2"    />
+        <result property="logisticsEvaluationComment2"    column="logistics_evaluation_comment2"    />
+        <result property="logisticsEvaluationScore2"    column="logistics_evaluation_score2"    />
+    </resultMap>
+
+    <sql id="selectDeliverevaluationVo">
+        select logistics_evaluation_id2, deliver_id, logistics_evaluation_evadite2, logistics_evaluation_comment2, logistics_evaluation_score2 from deliverevaluation
+    </sql>
+
+    <select id="selectDeliverevaluationList" parameterType="Deliverevaluation" resultMap="DeliverevaluationResult">
+        <include refid="selectDeliverevaluationVo"/>
+        <where>  
+            <if test="deliverId != null "> and deliver_id = #{deliverId}</if>
+            <if test="logisticsEvaluationEvadite2 != null "> and logistics_evaluation_evadite2 = #{logisticsEvaluationEvadite2}</if>
+            <if test="logisticsEvaluationComment2 != null  and logisticsEvaluationComment2 != ''"> and logistics_evaluation_comment2 = #{logisticsEvaluationComment2}</if>
+            <if test="logisticsEvaluationScore2 != null "> and logistics_evaluation_score2 = #{logisticsEvaluationScore2}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeliverevaluationByLogisticsEvaluationId2" parameterType="Long" resultMap="DeliverevaluationResult">
+        <include refid="selectDeliverevaluationVo"/>
+        where logistics_evaluation_id2 = #{logisticsEvaluationId2}
+    </select>
+        
+    <insert id="insertDeliverevaluation" parameterType="Deliverevaluation">
+        insert into deliverevaluation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="logisticsEvaluationId2 != null">logistics_evaluation_id2,</if>
+            <if test="deliverId != null">deliver_id,</if>
+            <if test="logisticsEvaluationEvadite2 != null">logistics_evaluation_evadite2,</if>
+            <if test="logisticsEvaluationComment2 != null">logistics_evaluation_comment2,</if>
+            <if test="logisticsEvaluationScore2 != null">logistics_evaluation_score2,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="logisticsEvaluationId2 != null">#{logisticsEvaluationId2},</if>
+            <if test="deliverId != null">#{deliverId},</if>
+            <if test="logisticsEvaluationEvadite2 != null">#{logisticsEvaluationEvadite2},</if>
+            <if test="logisticsEvaluationComment2 != null">#{logisticsEvaluationComment2},</if>
+            <if test="logisticsEvaluationScore2 != null">#{logisticsEvaluationScore2},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeliverevaluation" parameterType="Deliverevaluation">
+        update deliverevaluation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliverId != null">deliver_id = #{deliverId},</if>
+            <if test="logisticsEvaluationEvadite2 != null">logistics_evaluation_evadite2 = #{logisticsEvaluationEvadite2},</if>
+            <if test="logisticsEvaluationComment2 != null">logistics_evaluation_comment2 = #{logisticsEvaluationComment2},</if>
+            <if test="logisticsEvaluationScore2 != null">logistics_evaluation_score2 = #{logisticsEvaluationScore2},</if>
+        </trim>
+        where logistics_evaluation_id2 = #{logisticsEvaluationId2}
+    </update>
+
+    <delete id="deleteDeliverevaluationByLogisticsEvaluationId2" parameterType="Long">
+        delete from deliverevaluation where logistics_evaluation_id2 = #{logisticsEvaluationId2}
+    </delete>
+
+    <delete id="deleteDeliverevaluationByLogisticsEvaluationId2s" parameterType="String">
+        delete from deliverevaluation where logistics_evaluation_id2 in 
+        <foreach item="logisticsEvaluationId2" collection="array" open="(" separator="," close=")">
+            #{logisticsEvaluationId2}
+        </foreach>
+    </delete>
+</mapper>

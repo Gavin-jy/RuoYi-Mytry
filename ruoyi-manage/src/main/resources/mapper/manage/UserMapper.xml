@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.manage.mapper.UserMapper">
+    
+    <resultMap type="User" id="UserResult">
+        <result property="userId"    column="user_id"    />
+        <result property="vipId"    column="VIP_id"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="userPassword"    column="user_password"    />
+        <result property="userContribution"    column="user_contribution"    />
+        <result property="creatime"    column="creatime"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectUserVo">
+        select user_id, VIP_id, user_phone, user_password, user_contribution, creatime, create_by, update_time, update_by, del_flag, remark from user
+    </sql>
+
+    <select id="selectUserList" parameterType="User" resultMap="UserResult">
+        <include refid="selectUserVo"/>
+        <where>  
+            <if test="vipId != null  and vipId != ''"> and VIP_id = #{vipId}</if>
+            <if test="userPhone != null  and userPhone != ''"> and user_phone = #{userPhone}</if>
+            <if test="userPassword != null  and userPassword != ''"> and user_password = #{userPassword}</if>
+            <if test="userContribution != null "> and user_contribution = #{userContribution}</if>
+            <if test="creatime != null "> and creatime = #{creatime}</if>
+        </where>
+    </select>
+    
+    <select id="selectUserByUserId" parameterType="String" resultMap="UserResult">
+        <include refid="selectUserVo"/>
+        where user_id = #{userId}
+    </select>
+        
+    <insert id="insertUser" parameterType="User">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="vipId != null">VIP_id,</if>
+            <if test="userPhone != null and userPhone != ''">user_phone,</if>
+            <if test="userPassword != null and userPassword != ''">user_password,</if>
+            <if test="userContribution != null">user_contribution,</if>
+            <if test="creatime != null">creatime,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="vipId != null">#{vipId},</if>
+            <if test="userPhone != null and userPhone != ''">#{userPhone},</if>
+            <if test="userPassword != null and userPassword != ''">#{userPassword},</if>
+            <if test="userContribution != null">#{userContribution},</if>
+            <if test="creatime != null">#{creatime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUser" parameterType="User">
+        update user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vipId != null">VIP_id = #{vipId},</if>
+            <if test="userPhone != null and userPhone != ''">user_phone = #{userPhone},</if>
+            <if test="userPassword != null and userPassword != ''">user_password = #{userPassword},</if>
+            <if test="userContribution != null">user_contribution = #{userContribution},</if>
+            <if test="creatime != null">creatime = #{creatime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteUserByUserId" parameterType="String">
+        delete from user where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteUserByUserIds" parameterType="String">
+        delete from user where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

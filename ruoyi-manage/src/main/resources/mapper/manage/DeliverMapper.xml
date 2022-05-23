@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.manage.mapper.DeliverMapper">
+    
+    <resultMap type="Deliver" id="DeliverResult">
+        <result property="deliverId"    column="deliver_id"    />
+        <result property="deliverName"    column="deliver_name"    />
+        <result property="deliverPhone"    column="deliver_phone"    />
+    </resultMap>
+
+    <sql id="selectDeliverVo">
+        select deliver_id, deliver_name, deliver_phone from deliver
+    </sql>
+
+    <select id="selectDeliverList" parameterType="Deliver" resultMap="DeliverResult">
+        <include refid="selectDeliverVo"/>
+        <where>  
+            <if test="deliverName != null  and deliverName != ''"> and deliver_name like concat('%', #{deliverName}, '%')</if>
+            <if test="deliverPhone != null  and deliverPhone != ''"> and deliver_phone = #{deliverPhone}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeliverByDeliverId" parameterType="Long" resultMap="DeliverResult">
+        <include refid="selectDeliverVo"/>
+        where deliver_id = #{deliverId}
+    </select>
+        
+    <insert id="insertDeliver" parameterType="Deliver">
+        insert into deliver
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deliverId != null">deliver_id,</if>
+            <if test="deliverName != null">deliver_name,</if>
+            <if test="deliverPhone != null">deliver_phone,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deliverId != null">#{deliverId},</if>
+            <if test="deliverName != null">#{deliverName},</if>
+            <if test="deliverPhone != null">#{deliverPhone},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeliver" parameterType="Deliver">
+        update deliver
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliverName != null">deliver_name = #{deliverName},</if>
+            <if test="deliverPhone != null">deliver_phone = #{deliverPhone},</if>
+        </trim>
+        where deliver_id = #{deliverId}
+    </update>
+
+    <delete id="deleteDeliverByDeliverId" parameterType="Long">
+        delete from deliver where deliver_id = #{deliverId}
+    </delete>
+
+    <delete id="deleteDeliverByDeliverIds" parameterType="String">
+        delete from deliver where deliver_id in 
+        <foreach item="deliverId" collection="array" open="(" separator="," close=")">
+            #{deliverId}
+        </foreach>
+    </delete>
+</mapper>

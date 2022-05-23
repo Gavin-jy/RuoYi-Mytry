@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.manage.mapper.BusinessevaluationMapper">
+    
+    <resultMap type="Businessevaluation" id="BusinessevaluationResult">
+        <result property="businessEvaluationId2"    column="business_evaluation_id2"    />
+        <result property="supplierId"    column="supplier_id"    />
+        <result property="businessEvaluationSuppkey2"    column="business_evaluation_suppkey2"    />
+        <result property="businessEvaluationEvadate2"    column="business_evaluation_evadate2"    />
+        <result property="businessEvaluationComment2"    column="business_evaluation_comment2"    />
+        <result property="businessEvaluationScore2"    column="business_evaluation_score2"    />
+    </resultMap>
+
+    <sql id="selectBusinessevaluationVo">
+        select business_evaluation_id2, supplier_id, business_evaluation_suppkey2, business_evaluation_evadate2, business_evaluation_comment2, business_evaluation_score2 from businessevaluation
+    </sql>
+
+    <select id="selectBusinessevaluationList" parameterType="Businessevaluation" resultMap="BusinessevaluationResult">
+        <include refid="selectBusinessevaluationVo"/>
+        <where>  
+            <if test="supplierId != null "> and supplier_id = #{supplierId}</if>
+            <if test="businessEvaluationSuppkey2 != null "> and business_evaluation_suppkey2 = #{businessEvaluationSuppkey2}</if>
+            <if test="businessEvaluationEvadate2 != null "> and business_evaluation_evadate2 = #{businessEvaluationEvadate2}</if>
+            <if test="businessEvaluationComment2 != null  and businessEvaluationComment2 != ''"> and business_evaluation_comment2 = #{businessEvaluationComment2}</if>
+            <if test="businessEvaluationScore2 != null "> and business_evaluation_score2 = #{businessEvaluationScore2}</if>
+        </where>
+    </select>
+    
+    <select id="selectBusinessevaluationByBusinessEvaluationId2" parameterType="Long" resultMap="BusinessevaluationResult">
+        <include refid="selectBusinessevaluationVo"/>
+        where business_evaluation_id2 = #{businessEvaluationId2}
+    </select>
+        
+    <insert id="insertBusinessevaluation" parameterType="Businessevaluation">
+        insert into businessevaluation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="businessEvaluationId2 != null">business_evaluation_id2,</if>
+            <if test="supplierId != null">supplier_id,</if>
+            <if test="businessEvaluationSuppkey2 != null">business_evaluation_suppkey2,</if>
+            <if test="businessEvaluationEvadate2 != null">business_evaluation_evadate2,</if>
+            <if test="businessEvaluationComment2 != null">business_evaluation_comment2,</if>
+            <if test="businessEvaluationScore2 != null">business_evaluation_score2,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="businessEvaluationId2 != null">#{businessEvaluationId2},</if>
+            <if test="supplierId != null">#{supplierId},</if>
+            <if test="businessEvaluationSuppkey2 != null">#{businessEvaluationSuppkey2},</if>
+            <if test="businessEvaluationEvadate2 != null">#{businessEvaluationEvadate2},</if>
+            <if test="businessEvaluationComment2 != null">#{businessEvaluationComment2},</if>
+            <if test="businessEvaluationScore2 != null">#{businessEvaluationScore2},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBusinessevaluation" parameterType="Businessevaluation">
+        update businessevaluation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="supplierId != null">supplier_id = #{supplierId},</if>
+            <if test="businessEvaluationSuppkey2 != null">business_evaluation_suppkey2 = #{businessEvaluationSuppkey2},</if>
+            <if test="businessEvaluationEvadate2 != null">business_evaluation_evadate2 = #{businessEvaluationEvadate2},</if>
+            <if test="businessEvaluationComment2 != null">business_evaluation_comment2 = #{businessEvaluationComment2},</if>
+            <if test="businessEvaluationScore2 != null">business_evaluation_score2 = #{businessEvaluationScore2},</if>
+        </trim>
+        where business_evaluation_id2 = #{businessEvaluationId2}
+    </update>
+
+    <delete id="deleteBusinessevaluationByBusinessEvaluationId2" parameterType="Long">
+        delete from businessevaluation where business_evaluation_id2 = #{businessEvaluationId2}
+    </delete>
+
+    <delete id="deleteBusinessevaluationByBusinessEvaluationId2s" parameterType="String">
+        delete from businessevaluation where business_evaluation_id2 in 
+        <foreach item="businessEvaluationId2" collection="array" open="(" separator="," close=")">
+            #{businessEvaluationId2}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.manage.mapper.GoodsevaluationMapper">
+    
+    <resultMap type="Goodsevaluation" id="GoodsevaluationResult">
+        <result property="goodsEvaluationId2"    column="goods_evaluation_id2"    />
+        <result property="productId"    column="product_id"    />
+        <result property="goodsEvaluationGoodskey2"    column="goods_evaluation_goodskey2"    />
+        <result property="goodsEvaluationEvedate2"    column="goods_evaluation_evedate2"    />
+        <result property="goodsEvaluationComment2"    column="goods_evaluation_comment2"    />
+        <result property="goodsEvaluationScore2"    column="goods_evaluation_score2"    />
+    </resultMap>
+
+    <sql id="selectGoodsevaluationVo">
+        select goods_evaluation_id2, product_id, goods_evaluation_goodskey2, goods_evaluation_evedate2, goods_evaluation_comment2, goods_evaluation_score2 from goodsevaluation
+    </sql>
+
+    <select id="selectGoodsevaluationList" parameterType="Goodsevaluation" resultMap="GoodsevaluationResult">
+        <include refid="selectGoodsevaluationVo"/>
+        <where>  
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="goodsEvaluationGoodskey2 != null "> and goods_evaluation_goodskey2 = #{goodsEvaluationGoodskey2}</if>
+            <if test="goodsEvaluationEvedate2 != null "> and goods_evaluation_evedate2 = #{goodsEvaluationEvedate2}</if>
+            <if test="goodsEvaluationComment2 != null  and goodsEvaluationComment2 != ''"> and goods_evaluation_comment2 = #{goodsEvaluationComment2}</if>
+            <if test="goodsEvaluationScore2 != null "> and goods_evaluation_score2 = #{goodsEvaluationScore2}</if>
+        </where>
+    </select>
+    
+    <select id="selectGoodsevaluationByGoodsEvaluationId2" parameterType="Long" resultMap="GoodsevaluationResult">
+        <include refid="selectGoodsevaluationVo"/>
+        where goods_evaluation_id2 = #{goodsEvaluationId2}
+    </select>
+        
+    <insert id="insertGoodsevaluation" parameterType="Goodsevaluation">
+        insert into goodsevaluation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsEvaluationId2 != null">goods_evaluation_id2,</if>
+            <if test="productId != null">product_id,</if>
+            <if test="goodsEvaluationGoodskey2 != null">goods_evaluation_goodskey2,</if>
+            <if test="goodsEvaluationEvedate2 != null">goods_evaluation_evedate2,</if>
+            <if test="goodsEvaluationComment2 != null">goods_evaluation_comment2,</if>
+            <if test="goodsEvaluationScore2 != null">goods_evaluation_score2,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsEvaluationId2 != null">#{goodsEvaluationId2},</if>
+            <if test="productId != null">#{productId},</if>
+            <if test="goodsEvaluationGoodskey2 != null">#{goodsEvaluationGoodskey2},</if>
+            <if test="goodsEvaluationEvedate2 != null">#{goodsEvaluationEvedate2},</if>
+            <if test="goodsEvaluationComment2 != null">#{goodsEvaluationComment2},</if>
+            <if test="goodsEvaluationScore2 != null">#{goodsEvaluationScore2},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGoodsevaluation" parameterType="Goodsevaluation">
+        update goodsevaluation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="goodsEvaluationGoodskey2 != null">goods_evaluation_goodskey2 = #{goodsEvaluationGoodskey2},</if>
+            <if test="goodsEvaluationEvedate2 != null">goods_evaluation_evedate2 = #{goodsEvaluationEvedate2},</if>
+            <if test="goodsEvaluationComment2 != null">goods_evaluation_comment2 = #{goodsEvaluationComment2},</if>
+            <if test="goodsEvaluationScore2 != null">goods_evaluation_score2 = #{goodsEvaluationScore2},</if>
+        </trim>
+        where goods_evaluation_id2 = #{goodsEvaluationId2}
+    </update>
+
+    <delete id="deleteGoodsevaluationByGoodsEvaluationId2" parameterType="Long">
+        delete from goodsevaluation where goods_evaluation_id2 = #{goodsEvaluationId2}
+    </delete>
+
+    <delete id="deleteGoodsevaluationByGoodsEvaluationId2s" parameterType="String">
+        delete from goodsevaluation where goods_evaluation_id2 in 
+        <foreach item="goodsEvaluationId2" collection="array" open="(" separator="," close=")">
+            #{goodsEvaluationId2}
+        </foreach>
+    </delete>
+</mapper>

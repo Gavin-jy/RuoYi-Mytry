@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.consumer.mapper.CustevaluationMapper">
+    
+    <resultMap type="Custevaluation" id="CustevaluationResult">
+        <result property="custEvaluationId2"    column="cust_evaluation_id2"    />
+        <result property="userId"    column="user_id"    />
+        <result property="custEvaluationOrderkey2"    column="cust_evaluation_orderkey2"    />
+        <result property="custEvaluationEvadate2"    column="cust_evaluation_evadate2"    />
+        <result property="custEvaluationComment2"    column="cust_evaluation_comment2"    />
+        <result property="custEvaluationSuppscore2"    column="cust_evaluation_suppscore2"    />
+        <result property="custEvaluationGoodsscore2"    column="cust_evaluation_goodsscore2"    />
+        <result property="custEvaluationDelievryscore2"    column="cust_evaluation_delievryscore2"    />
+    </resultMap>
+
+    <sql id="selectCustevaluationVo">
+        select cust_evaluation_id2, user_id, cust_evaluation_orderkey2, cust_evaluation_evadate2, cust_evaluation_comment2, cust_evaluation_suppscore2, cust_evaluation_goodsscore2, cust_evaluation_delievryscore2 from custevaluation
+    </sql>
+
+    <select id="selectCustevaluationList" parameterType="Custevaluation" resultMap="CustevaluationResult">
+        <include refid="selectCustevaluationVo"/>
+        <where>  
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="custEvaluationOrderkey2 != null "> and cust_evaluation_orderkey2 = #{custEvaluationOrderkey2}</if>
+            <if test="custEvaluationEvadate2 != null "> and cust_evaluation_evadate2 = #{custEvaluationEvadate2}</if>
+            <if test="custEvaluationComment2 != null  and custEvaluationComment2 != ''"> and cust_evaluation_comment2 = #{custEvaluationComment2}</if>
+            <if test="custEvaluationSuppscore2 != null "> and cust_evaluation_suppscore2 = #{custEvaluationSuppscore2}</if>
+            <if test="custEvaluationGoodsscore2 != null "> and cust_evaluation_goodsscore2 = #{custEvaluationGoodsscore2}</if>
+            <if test="custEvaluationDelievryscore2 != null "> and cust_evaluation_delievryscore2 = #{custEvaluationDelievryscore2}</if>
+        </where>
+    </select>
+    
+    <select id="selectCustevaluationByCustEvaluationId2" parameterType="Long" resultMap="CustevaluationResult">
+        <include refid="selectCustevaluationVo"/>
+        where cust_evaluation_id2 = #{custEvaluationId2}
+    </select>
+        
+    <insert id="insertCustevaluation" parameterType="Custevaluation">
+        insert into custevaluation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="custEvaluationId2 != null">cust_evaluation_id2,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="custEvaluationOrderkey2 != null">cust_evaluation_orderkey2,</if>
+            <if test="custEvaluationEvadate2 != null">cust_evaluation_evadate2,</if>
+            <if test="custEvaluationComment2 != null">cust_evaluation_comment2,</if>
+            <if test="custEvaluationSuppscore2 != null">cust_evaluation_suppscore2,</if>
+            <if test="custEvaluationGoodsscore2 != null">cust_evaluation_goodsscore2,</if>
+            <if test="custEvaluationDelievryscore2 != null">cust_evaluation_delievryscore2,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="custEvaluationId2 != null">#{custEvaluationId2},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="custEvaluationOrderkey2 != null">#{custEvaluationOrderkey2},</if>
+            <if test="custEvaluationEvadate2 != null">#{custEvaluationEvadate2},</if>
+            <if test="custEvaluationComment2 != null">#{custEvaluationComment2},</if>
+            <if test="custEvaluationSuppscore2 != null">#{custEvaluationSuppscore2},</if>
+            <if test="custEvaluationGoodsscore2 != null">#{custEvaluationGoodsscore2},</if>
+            <if test="custEvaluationDelievryscore2 != null">#{custEvaluationDelievryscore2},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCustevaluation" parameterType="Custevaluation">
+        update custevaluation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="custEvaluationOrderkey2 != null">cust_evaluation_orderkey2 = #{custEvaluationOrderkey2},</if>
+            <if test="custEvaluationEvadate2 != null">cust_evaluation_evadate2 = #{custEvaluationEvadate2},</if>
+            <if test="custEvaluationComment2 != null">cust_evaluation_comment2 = #{custEvaluationComment2},</if>
+            <if test="custEvaluationSuppscore2 != null">cust_evaluation_suppscore2 = #{custEvaluationSuppscore2},</if>
+            <if test="custEvaluationGoodsscore2 != null">cust_evaluation_goodsscore2 = #{custEvaluationGoodsscore2},</if>
+            <if test="custEvaluationDelievryscore2 != null">cust_evaluation_delievryscore2 = #{custEvaluationDelievryscore2},</if>
+        </trim>
+        where cust_evaluation_id2 = #{custEvaluationId2}
+    </update>
+
+    <delete id="deleteCustevaluationByCustEvaluationId2" parameterType="Long">
+        delete from custevaluation where cust_evaluation_id2 = #{custEvaluationId2}
+    </delete>
+
+    <delete id="deleteCustevaluationByCustEvaluationId2s" parameterType="String">
+        delete from custevaluation where cust_evaluation_id2 in 
+        <foreach item="custEvaluationId2" collection="array" open="(" separator="," close=")">
+            #{custEvaluationId2}
+        </foreach>
+    </delete>
+</mapper>

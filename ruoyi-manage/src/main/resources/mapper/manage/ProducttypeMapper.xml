@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.manage.mapper.ProducttypeMapper">
+    
+    <resultMap type="Producttype" id="ProducttypeResult">
+        <result property="productTypeId"    column="product_type_id"    />
+        <result property="productTypeName"    column="product_type_name"    />
+        <result property="creatime"    column="creatime"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectProducttypeVo">
+        select product_type_id, product_type_name, creatime, create_by, update_time, update_by, del_flag, remark from producttype
+    </sql>
+
+    <select id="selectProducttypeList" parameterType="Producttype" resultMap="ProducttypeResult">
+        <include refid="selectProducttypeVo"/>
+        <where>  
+            <if test="productTypeName != null  and productTypeName != ''"> and product_type_name like concat('%', #{productTypeName}, '%')</if>
+            <if test="creatime != null "> and creatime = #{creatime}</if>
+        </where>
+    </select>
+    
+    <select id="selectProducttypeByProductTypeId" parameterType="Long" resultMap="ProducttypeResult">
+        <include refid="selectProducttypeVo"/>
+        where product_type_id = #{productTypeId}
+    </select>
+        
+    <insert id="insertProducttype" parameterType="Producttype">
+        insert into producttype
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productTypeId != null">product_type_id,</if>
+            <if test="productTypeName != null">product_type_name,</if>
+            <if test="creatime != null">creatime,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productTypeId != null">#{productTypeId},</if>
+            <if test="productTypeName != null">#{productTypeName},</if>
+            <if test="creatime != null">#{creatime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProducttype" parameterType="Producttype">
+        update producttype
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productTypeName != null">product_type_name = #{productTypeName},</if>
+            <if test="creatime != null">creatime = #{creatime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where product_type_id = #{productTypeId}
+    </update>
+
+    <delete id="deleteProducttypeByProductTypeId" parameterType="Long">
+        delete from producttype where product_type_id = #{productTypeId}
+    </delete>
+
+    <delete id="deleteProducttypeByProductTypeIds" parameterType="String">
+        delete from producttype where product_type_id in 
+        <foreach item="productTypeId" collection="array" open="(" separator="," close=")">
+            #{productTypeId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.consumer.mapper.AftersaleMapper">
+    
+    <resultMap type="Aftersale" id="AftersaleResult">
+        <result property="aftersaleId"    column="aftersale_id"    />
+        <result property="myorderId"    column="myorder_id"    />
+        <result property="aftersaleSituation"    column="aftersale_situation"    />
+        <result property="creatime"    column="creatime"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectAftersaleVo">
+        select aftersale_id, myorder_id, aftersale_situation, creatime, create_by, update_time, update_by, del_flag, remark from aftersale
+    </sql>
+
+    <select id="selectAftersaleList" parameterType="Aftersale" resultMap="AftersaleResult">
+        <include refid="selectAftersaleVo"/>
+        <where>  
+            <if test="myorderId != null "> and myorder_id = #{myorderId}</if>
+            <if test="aftersaleSituation != null "> and aftersale_situation = #{aftersaleSituation}</if>
+            <if test="creatime != null "> and creatime = #{creatime}</if>
+        </where>
+    </select>
+    
+    <select id="selectAftersaleByAftersaleId" parameterType="Long" resultMap="AftersaleResult">
+        <include refid="selectAftersaleVo"/>
+        where aftersale_id = #{aftersaleId}
+    </select>
+        
+    <insert id="insertAftersale" parameterType="Aftersale">
+        insert into aftersale
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="aftersaleId != null">aftersale_id,</if>
+            <if test="myorderId != null">myorder_id,</if>
+            <if test="aftersaleSituation != null">aftersale_situation,</if>
+            <if test="creatime != null">creatime,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="aftersaleId != null">#{aftersaleId},</if>
+            <if test="myorderId != null">#{myorderId},</if>
+            <if test="aftersaleSituation != null">#{aftersaleSituation},</if>
+            <if test="creatime != null">#{creatime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAftersale" parameterType="Aftersale">
+        update aftersale
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="myorderId != null">myorder_id = #{myorderId},</if>
+            <if test="aftersaleSituation != null">aftersale_situation = #{aftersaleSituation},</if>
+            <if test="creatime != null">creatime = #{creatime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where aftersale_id = #{aftersaleId}
+    </update>
+
+    <delete id="deleteAftersaleByAftersaleId" parameterType="Long">
+        delete from aftersale where aftersale_id = #{aftersaleId}
+    </delete>
+
+    <delete id="deleteAftersaleByAftersaleIds" parameterType="String">
+        delete from aftersale where aftersale_id in 
+        <foreach item="aftersaleId" collection="array" open="(" separator="," close=")">
+            #{aftersaleId}
+        </foreach>
+    </delete>
+</mapper>

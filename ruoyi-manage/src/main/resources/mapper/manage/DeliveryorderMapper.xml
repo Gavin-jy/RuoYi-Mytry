@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.manage.mapper.DeliveryorderMapper">
+    
+    <resultMap type="Deliveryorder" id="DeliveryorderResult">
+        <result property="deliveryOrderId3"    column="delivery_order_id3"    />
+        <result property="deliverId"    column="deliver_id"    />
+        <result property="deliveryOrderReturnflag2"    column="delivery_order_returnflag2"    />
+        <result property="deliveryOrderDeliveryadd2"    column="delivery_order_deliveryadd2"    />
+        <result property="deliveryOrderDeliverystatus2"    column="delivery_order_deliverystatus2"    />
+        <result property="deliveryOrderDeliverydate2"    column="delivery_order_deliverydate2"    />
+        <result property="deliveryOrderShiptype2"    column="delivery_order_shiptype2"    />
+        <result property="deliveryOrderReceiptadd2"    column="delivery_order_receiptadd2"    />
+        <result property="deliveryOrderReceiptstatus2"    column="delivery_order_receiptstatus2"    />
+        <result property="deliveryOrderReceiptdate2"    column="delivery_order_receiptdate2"    />
+        <result property="deliveryOrderShipprice2"    column="delivery_order_shipprice2"    />
+        <result property="deliveryOrderShiptime2"    column="delivery_order_shiptime2"    />
+    </resultMap>
+
+    <sql id="selectDeliveryorderVo">
+        select delivery_order_id3, deliver_id, delivery_order_returnflag2, delivery_order_deliveryadd2, delivery_order_deliverystatus2, delivery_order_deliverydate2, delivery_order_shiptype2, delivery_order_receiptadd2, delivery_order_receiptstatus2, delivery_order_receiptdate2, delivery_order_shipprice2, delivery_order_shiptime2 from deliveryorder
+    </sql>
+
+    <select id="selectDeliveryorderList" parameterType="Deliveryorder" resultMap="DeliveryorderResult">
+        <include refid="selectDeliveryorderVo"/>
+        <where>  
+            <if test="deliverId != null "> and deliver_id = #{deliverId}</if>
+            <if test="deliveryOrderReturnflag2 != null "> and delivery_order_returnflag2 = #{deliveryOrderReturnflag2}</if>
+            <if test="deliveryOrderDeliveryadd2 != null  and deliveryOrderDeliveryadd2 != ''"> and delivery_order_deliveryadd2 = #{deliveryOrderDeliveryadd2}</if>
+            <if test="deliveryOrderDeliverystatus2 != null "> and delivery_order_deliverystatus2 = #{deliveryOrderDeliverystatus2}</if>
+            <if test="deliveryOrderDeliverydate2 != null "> and delivery_order_deliverydate2 = #{deliveryOrderDeliverydate2}</if>
+            <if test="deliveryOrderShiptype2 != null  and deliveryOrderShiptype2 != ''"> and delivery_order_shiptype2 = #{deliveryOrderShiptype2}</if>
+            <if test="deliveryOrderReceiptadd2 != null  and deliveryOrderReceiptadd2 != ''"> and delivery_order_receiptadd2 = #{deliveryOrderReceiptadd2}</if>
+            <if test="deliveryOrderReceiptstatus2 != null "> and delivery_order_receiptstatus2 = #{deliveryOrderReceiptstatus2}</if>
+            <if test="deliveryOrderReceiptdate2 != null "> and delivery_order_receiptdate2 = #{deliveryOrderReceiptdate2}</if>
+            <if test="deliveryOrderShipprice2 != null "> and delivery_order_shipprice2 = #{deliveryOrderShipprice2}</if>
+            <if test="deliveryOrderShiptime2 != null "> and delivery_order_shiptime2 = #{deliveryOrderShiptime2}</if>
+        </where>
+    </select>
+    
+    <select id="selectDeliveryorderByDeliveryOrderId3" parameterType="Long" resultMap="DeliveryorderResult">
+        <include refid="selectDeliveryorderVo"/>
+        where delivery_order_id3 = #{deliveryOrderId3}
+    </select>
+        
+    <insert id="insertDeliveryorder" parameterType="Deliveryorder">
+        insert into deliveryorder
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deliveryOrderId3 != null">delivery_order_id3,</if>
+            <if test="deliverId != null">deliver_id,</if>
+            <if test="deliveryOrderReturnflag2 != null">delivery_order_returnflag2,</if>
+            <if test="deliveryOrderDeliveryadd2 != null">delivery_order_deliveryadd2,</if>
+            <if test="deliveryOrderDeliverystatus2 != null">delivery_order_deliverystatus2,</if>
+            <if test="deliveryOrderDeliverydate2 != null">delivery_order_deliverydate2,</if>
+            <if test="deliveryOrderShiptype2 != null">delivery_order_shiptype2,</if>
+            <if test="deliveryOrderReceiptadd2 != null">delivery_order_receiptadd2,</if>
+            <if test="deliveryOrderReceiptstatus2 != null">delivery_order_receiptstatus2,</if>
+            <if test="deliveryOrderReceiptdate2 != null">delivery_order_receiptdate2,</if>
+            <if test="deliveryOrderShipprice2 != null">delivery_order_shipprice2,</if>
+            <if test="deliveryOrderShiptime2 != null">delivery_order_shiptime2,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deliveryOrderId3 != null">#{deliveryOrderId3},</if>
+            <if test="deliverId != null">#{deliverId},</if>
+            <if test="deliveryOrderReturnflag2 != null">#{deliveryOrderReturnflag2},</if>
+            <if test="deliveryOrderDeliveryadd2 != null">#{deliveryOrderDeliveryadd2},</if>
+            <if test="deliveryOrderDeliverystatus2 != null">#{deliveryOrderDeliverystatus2},</if>
+            <if test="deliveryOrderDeliverydate2 != null">#{deliveryOrderDeliverydate2},</if>
+            <if test="deliveryOrderShiptype2 != null">#{deliveryOrderShiptype2},</if>
+            <if test="deliveryOrderReceiptadd2 != null">#{deliveryOrderReceiptadd2},</if>
+            <if test="deliveryOrderReceiptstatus2 != null">#{deliveryOrderReceiptstatus2},</if>
+            <if test="deliveryOrderReceiptdate2 != null">#{deliveryOrderReceiptdate2},</if>
+            <if test="deliveryOrderShipprice2 != null">#{deliveryOrderShipprice2},</if>
+            <if test="deliveryOrderShiptime2 != null">#{deliveryOrderShiptime2},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDeliveryorder" parameterType="Deliveryorder">
+        update deliveryorder
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deliverId != null">deliver_id = #{deliverId},</if>
+            <if test="deliveryOrderReturnflag2 != null">delivery_order_returnflag2 = #{deliveryOrderReturnflag2},</if>
+            <if test="deliveryOrderDeliveryadd2 != null">delivery_order_deliveryadd2 = #{deliveryOrderDeliveryadd2},</if>
+            <if test="deliveryOrderDeliverystatus2 != null">delivery_order_deliverystatus2 = #{deliveryOrderDeliverystatus2},</if>
+            <if test="deliveryOrderDeliverydate2 != null">delivery_order_deliverydate2 = #{deliveryOrderDeliverydate2},</if>
+            <if test="deliveryOrderShiptype2 != null">delivery_order_shiptype2 = #{deliveryOrderShiptype2},</if>
+            <if test="deliveryOrderReceiptadd2 != null">delivery_order_receiptadd2 = #{deliveryOrderReceiptadd2},</if>
+            <if test="deliveryOrderReceiptstatus2 != null">delivery_order_receiptstatus2 = #{deliveryOrderReceiptstatus2},</if>
+            <if test="deliveryOrderReceiptdate2 != null">delivery_order_receiptdate2 = #{deliveryOrderReceiptdate2},</if>
+            <if test="deliveryOrderShipprice2 != null">delivery_order_shipprice2 = #{deliveryOrderShipprice2},</if>
+            <if test="deliveryOrderShiptime2 != null">delivery_order_shiptime2 = #{deliveryOrderShiptime2},</if>
+        </trim>
+        where delivery_order_id3 = #{deliveryOrderId3}
+    </update>
+
+    <delete id="deleteDeliveryorderByDeliveryOrderId3" parameterType="Long">
+        delete from deliveryorder where delivery_order_id3 = #{deliveryOrderId3}
+    </delete>
+
+    <delete id="deleteDeliveryorderByDeliveryOrderId3s" parameterType="String">
+        delete from deliveryorder where delivery_order_id3 in 
+        <foreach item="deliveryOrderId3" collection="array" open="(" separator="," close=")">
+            #{deliveryOrderId3}
+        </foreach>
+    </delete>
+</mapper>
